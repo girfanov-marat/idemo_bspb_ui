@@ -68,7 +68,7 @@ def pytest_runtest_makereport(item, call):
             report.nodeid.split("::")[1], datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
         )
         file_name = PATH(os.path.abspath(os.curdir) + "/" + add_name + ".png")
-        driver.wd.get_screenshot_as_file(file_name)
+        driver.d.get_screenshot_as_file(file_name)
         if (report.skipped and xfail) or (report.failed and not xfail):
             cp_file_name = add_name + ".png"
             # only add additional html on failure
