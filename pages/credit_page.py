@@ -28,6 +28,8 @@ class CreditPage(BasePage):
 
     def alert_info(self, loan_type):
         if loan_type == "refinance_loan":
+            self.wait.until\
+                (self.ex.presence_of_element_located(CreditPageLocators.MODAL_WINDOW))
             alert = self.d.find_element(*CreditPageLocators.REFINANCE_ALERT_INFO).text
         else:
             alert = self.d.find_element(*CreditPageLocators.ALERT_INFO).text
