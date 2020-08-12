@@ -3,6 +3,7 @@ from selenium.webdriver.android.webdriver import WebDriver
 from pages.base_page import BasePage
 import logging
 from common.logging import setup
+from pages.credit_page import CreditPage
 from pages.login_page import LoginPage
 
 logger = logging.getLogger()
@@ -13,6 +14,7 @@ class Application(BasePage):
         super().__init__(driver)
         self.base_url = base_url
         self.login = LoginPage(self.d)
+        self.credit_page = CreditPage(self.d)
         setup("INFO")
         logger.setLevel("INFO")
 
@@ -24,3 +26,7 @@ class Application(BasePage):
     @property
     def main_url(self):
         return self.base_url + "welcome"
+
+    @property
+    def credit_url(self):
+        return self.base_url + "loans"
