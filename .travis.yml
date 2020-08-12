@@ -9,5 +9,6 @@ install:
 
 script:
   - locale
-  - env LANG=ru_RU.UTF-8 LC_ALL=ru_RU.UTF-8
+  - env LANG=ru_RU.UTF-8 LC_ALL=ru_RU.UTF-8 LANGUAGE=ru_RU.UTF-8
+  - locale
   - pytest
