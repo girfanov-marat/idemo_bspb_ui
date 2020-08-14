@@ -30,3 +30,8 @@ class Application(BasePage):
     @property
     def credit_url(self):
         return self.base_url + "loans"
+
+    def loan_full_repayment_url(self, doc_id):
+        return (
+            self.base_url + f"messages/form?topic=LOAN_FULL_REPAYMENT&loanId={doc_id}"
+        )
