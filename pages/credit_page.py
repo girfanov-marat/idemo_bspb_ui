@@ -1,8 +1,12 @@
+import logging
+
 import allure
 from selenium.common.exceptions import NoSuchWindowException
 
 from locators.credit_page import CreditPageLocators
 from pages.base_page import BasePage
+
+logger = logging.getLogger()
 
 
 class CreditPage(BasePage):
@@ -40,7 +44,9 @@ class CreditPage(BasePage):
         else:
             return "No alert message"
         self.wait.until(self.ex.visibility_of(alert))
-        return alert.text
+        message = alert.text
+        logger.info(f"Alert text = {message}")
+        return message
 
     def contracts(self):
         return len(self.d.find_elements(*CreditPageLocators.CONTRACTS))
