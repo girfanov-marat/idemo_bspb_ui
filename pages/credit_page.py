@@ -101,7 +101,9 @@ class CreditPage(BasePage):
         return not self.d.find_element(*CreditPageLocators.CONFIRM_BUTTON).is_enabled()
 
     def contract_num(self):
-        doc_num = self.d.find_element(*CreditPageLocators.CONTRACT_NUM).text
+        elem = self.d.find_element(*CreditPageLocators.CONTRACT_NUM)
+        self.wait.until(self.ex.visibility_of(elem))
+        doc_num = elem.text
         logger.info(f"Document number: {doc_num}")
         return doc_num
 
