@@ -38,12 +38,13 @@ class CreditPage(BasePage):
 
     def alert_info(self, alert_type: str):
         if alert_type == "success":
-            alert = self.d.find_element(*CreditPageLocators.ALERT_SUCCESS_INFO)
+            alert_locator = CreditPageLocators.ALERT_SUCCESS_INFO
         elif alert_type == "info":
-            alert = self.d.find_element(*CreditPageLocators.ALERT_INFO)
+            alert_locator = CreditPageLocators.ALERT_INFO
         else:
             return "No alert message"
-        self.wait.until(self.ex.visibility_of(alert))
+        self.wait.until(self.ex.presence_of_element_located(alert_locator))
+        alert = self.d.find_element(*alert_locator)
         message = alert.text
         logger.info(f"Alert text = {message}")
         return message
