@@ -42,7 +42,7 @@ class CreditPage(BasePage):
         elif alert_type == "info":
             alert_locator = CreditPageLocators.ALERT_INFO
         else:
-            return "No alert message"
+            return "Incorrect alert type"
         self.wait.until(self.ex.visibility_of_element_located(alert_locator))
         alert = self.d.find_element(*alert_locator)
         message = alert.text
