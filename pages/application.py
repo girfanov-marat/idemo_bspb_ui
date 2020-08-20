@@ -4,6 +4,7 @@ from pages.base_page import BasePage
 import logging
 from common.logging import setup
 from pages.credit_page import CreditPage
+from pages.deposits_page import DepositPage
 from pages.login_page import LoginPage
 
 logger = logging.getLogger()
@@ -15,6 +16,7 @@ class Application(BasePage):
         self.base_url = base_url
         self.login = LoginPage(self.d)
         self.credit_page = CreditPage(self.d)
+        self.deposit_page = DepositPage(self.d)
         setup("INFO")
         logger.setLevel("INFO")
 
@@ -30,6 +32,10 @@ class Application(BasePage):
     @property
     def credit_url(self):
         return self.base_url + "loans"
+
+    @property
+    def deposit_url(self):
+        return self.base_url + "deposits"
 
     def loan_full_repayment_url(self, doc_id):
         return (

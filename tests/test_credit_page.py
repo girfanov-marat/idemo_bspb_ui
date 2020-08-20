@@ -35,7 +35,7 @@ class TestCredits:
         app.open_page(app.credit_url)
         app.credit_page.create_loan()
         app.credit_page.select_loan(loan_type)
-        assert app.credit_page.alert_info(alert_type) == alert_info
+        assert app.credit_page.alert_info(alert_type) == alert_info, "Alert invalid"
 
     @allure.tag("Кредиты")
     @allure.suite("Заявление на досрочное погашение")
