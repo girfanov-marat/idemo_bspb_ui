@@ -30,9 +30,9 @@ class TestCredits:
         app.open_page(app.deposit_url)
         app.deposit_page.open_deposit()
         app.deposit_page.set_filters(currency, min_days)
-        assert app.deposit_page.open_first_deposit(), (
-            "Нет доступных депозитов по " "выбранным фильтрам "
-        )
+        assert (
+            app.deposit_page.open_first_deposit()
+        ), "Нет доступных депозитов по выбранным фильтрам"
         app.deposit_page.add_data(deposit.end_date, deposit.summ, deposit.prolongation)
         app.deposit_page.submit()
         app.deposit_page.agree_with_terms()
