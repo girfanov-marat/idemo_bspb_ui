@@ -31,3 +31,9 @@ class DepositPageLocators:
     )
     SUBMIT_BUTTON = (By.XPATH, '//button[@id="submit-button"]')
     CONFIRM_BUTTON = (By.XPATH, '//button[@id="confirm"]')
+    INTEREST_RATE_VALUE = (By.XPATH, '//span[@id="interest-rate"]')
+    INVALID_COMBINATION_SUM_AND_DATE = (
+        By.XPATH,
+        '//div[@class="tooltip fade right in"]',
+    )
+    ERROR_MESSAGE = (By.XPATH, '//span[@class="error-message"]')
