@@ -1,11 +1,12 @@
 import allure
 from pytest import mark
 from selenium.common.exceptions import ElementClickInterceptedException
-
 from common.deposit_page import ALERT_INFO_SUCCESS, ERROR_MESSAGE
 from models.deposit_page import DepositData
+from utils.decorators import start_finish_method_logger, decorate_class_methods
 
 
+@decorate_class_methods(start_finish_method_logger)
 @allure.feature("Проверка блока: Вклады")
 class TestCredits:
     @allure.tag("Вклады")
@@ -48,7 +49,7 @@ class TestCredits:
         app.deposit_page.agree_with_terms()
         app.deposit_page.confirm()
         assert app.alert_info(alert_type) == alert_info, (
-            "Некорректное оповещение об " "успешном создании вклада "
+            "Некорректное оповещение об успешном создании вклада "
         )
 
     @allure.tag("Вклады")
@@ -119,7 +120,7 @@ class TestCredits:
         app.deposit_page.add_data(deposit.end_date, deposit.summ, deposit.prolongation)
         app.deposit_page.simple_submit()
         assert app.deposit_page.alert_info(), (
-            "Сообщение о некорректной дате или " "сумме не отобразилось "
+            "Сообщение о некорректной дате или сумме не отобразилось "
         )
 
     @allure.tag("Вклады")
@@ -149,5 +150,5 @@ class TestCredits:
         app.deposit_page.add_data_without_end_date(deposit.summ, deposit.prolongation)
         app.deposit_page.submit()
         assert app.deposit_page.error_message() == ERROR_MESSAGE, (
-            "Сообщение " "'Недостаточно " "средств на счёте' " "не отобразилось "
+            "Сообщение 'Недостаточно средств на счёте' не отобразилось "
         )

@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from locators.main_page import MainPageLocators
+from utils import custom_expected_conditions
 
 logger = logging.getLogger()
 
@@ -20,6 +21,10 @@ class BasePage:
     @property
     def ex(self):
         return expected_conditions
+
+    @property
+    def custom_ex(self):
+        return custom_expected_conditions
 
     def alert_info(self, alert_type: str):
         if alert_type == "success":

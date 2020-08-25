@@ -22,7 +22,7 @@ class Application(BasePage):
 
     @allure.step("Открытие страницы")
     def open_page(self, url):
-        logger.info(f"Open page {url}")
+        logger.info(f"Открытие страницы: {url}")
         self.driver.get(url)
 
     @property

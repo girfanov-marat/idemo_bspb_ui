@@ -1,5 +1,3 @@
-"""custom expected conditions"""
-
 from selenium.common.exceptions import (
     StaleElementReferenceException,
     WebDriverException,
