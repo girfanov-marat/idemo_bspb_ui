@@ -1,7 +1,9 @@
+from pytest import mark
 
 
 class TestAccounts:
 
+    @mark.xfail
     def test_open_new_account(self, app):
         """
         1. Перейти на вкладку "Счета-Текущие"
@@ -18,6 +20,7 @@ class TestAccounts:
         app.account_page.confirm_button_click()
         assert app.alert_info("success") == CREATE_ACCOUNT_SUCCESS
 
+    @mark.xfail
     def test_close_account(self, app):
         """
         1. Перейти на вкладку "Счета-Текущие"
