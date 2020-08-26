@@ -37,6 +37,10 @@ class Application(BasePage):
     def deposit_url(self):
         return self.base_url + "deposits"
 
+    @property
+    def accounts_url(self):
+        return self.base_url + "accounts"
+
     def loan_full_repayment_url(self, doc_id):
         return (
             self.base_url + f"messages/form?topic=LOAN_FULL_REPAYMENT&loanId={doc_id}"

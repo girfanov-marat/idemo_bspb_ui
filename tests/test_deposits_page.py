@@ -8,7 +8,7 @@ from utils.decorators import start_finish_method_logger, decorate_class_methods
 
 @decorate_class_methods(start_finish_method_logger)
 @allure.feature("Проверка блока: Вклады")
-class TestCredits:
+class TestDeposits:
 
     @allure.tag("Вклады")
     @allure.description("Тест проверяет открытие вклада")
@@ -158,6 +158,7 @@ class TestCredits:
     @allure.description("Тест проверяет переименование первого счета на странице "
                         "вкладов")
     @allure.suite("Переименование счета")
+    @mark.xfail
     def test_rename_account(self, app, new_name="new_account_name"):
         """
         1. Перейти на вкладку "Кредиты"

@@ -35,6 +35,7 @@ class DepositPage(BasePage):
 
     @allure.step("Выбор фильтров: валюта: {currency}, на срок: {min_days}")
     def set_filters(self, currency, min_days):
+        logger.info(f"Установка фильтров: валюта - {currency}, срок - {min_days}")
         if currency not in self.deposit_currency.keys():
             logger.error("Некорректная валюта")
             raise Exception("Некорректная валюта")
@@ -45,34 +46,33 @@ class DepositPage(BasePage):
         min_days_radio = self.deposit_min_days[min_days]
         self.d.find_element(*currency_radio).click()
         self.d.find_element(*min_days_radio).click()
-        logger.info(f"Установка фильтров: валюта - {currency}, срок - {min_days}")
 
     @allure.step("Нажатие кнопки 'открыть вклад' у первого вклада из списка")
     def open_first_deposit(self) -> bool:
         try:
-            self.d.find_elements(*DepositPageLocators.OPEN_DEPOSIT_BUTTONS)[0].click()
             logger.info("Нажатие кнопки 'открыть вклад' у первого вклада из списка")
+            self.d.find_elements(*DepositPageLocators.OPEN_DEPOSIT_BUTTONS)[0].click()
             return True
         except NoSuchElementException:
             return False
 
     def add_data(self, end_data, summ, prolongation):
-        self.d.find_element(*DepositPageLocators.DATE_FIELD).clear()
-        self.d.find_element(*DepositPageLocators.DATE_FIELD).send_keys(end_data)
-        self.d.find_element(*DepositPageLocators.SUMM_FIELD).send_keys(summ)
-        if not prolongation:
-            self.d.find_element(*DepositPageLocators.PROLONGATION_CHECKBOX).click()
         logger.info(
             f"Проставление данных: дата окончания - {end_data}, сумма - {summ}, "
             f"автоматическое продление - "
             f"{prolongation}"
         )
-
-    def add_data_without_end_date(self, summ, prolongation):
+        self.d.find_element(*DepositPageLocators.DATE_FIELD).clear()
+        self.d.find_element(*DepositPageLocators.DATE_FIELD).send_keys(end_data)
         self.d.find_element(*DepositPageLocators.SUMM_FIELD).send_keys(summ)
         if not prolongation:
             self.d.find_element(*DepositPageLocators.PROLONGATION_CHECKBOX).click()
+
+    def add_data_without_end_date(self, summ, prolongation):
         logger.info(f"Проставление данных: сумма - {summ}, автоматическое продление - {prolongation}")
+        self.d.find_element(*DepositPageLocators.SUMM_FIELD).send_keys(summ)
+        if not prolongation:
+            self.d.find_element(*DepositPageLocators.PROLONGATION_CHECKBOX).click()
 
     @allure.step("Нажатие кнопки 'Дальше' на странице открытия вклада")
     def submit(self):
@@ -85,13 +85,13 @@ class DepositPage(BasePage):
 
     @allure.step("Нажатие кнопки 'Дальше' на странице открытия вклада")
     def simple_submit(self):
-        self.d.find_element(*DepositPageLocators.SUBMIT_BUTTON).click()
         logger.info("Нажатие кнопки 'Дальше' на странице открытия вклада")
+        self.d.find_element(*DepositPageLocators.SUBMIT_BUTTON).click()
 
     @allure.step("Проставление чекбокса согласия с правилами")
     def agree_with_terms(self):
-        self.d.find_element(*DepositPageLocators.TERMS_AGREEMENT_CHECKBOX).click()
         logger.info("Проставление чекбокса согласия с правилами")
+        self.d.find_element(*DepositPageLocators.TERMS_AGREEMENT_CHECKBOX).click()
 
     @allure.step("Нажатие кнопки 'Подтвердить' на странице открытия вклада")
     def confirm(self):
@@ -122,22 +122,24 @@ class DepositPage(BasePage):
         logger.info(f"Id первого счета: {attr_name}")
         return attr_name
 
+    @allure.step("Нажатие кнопки переименования счета")
     def rename_button(self):
+        logger.info("Нажатие кнопки переименования счета")
         actions = ActionChains(self.d)
         elem = self.d.find_elements(*DepositPageLocators.RENAME_ACCOUNT_BUTTONS)[0]
         actions.move_to_element(elem).perform()
         elem.click()
-        logger.info("Нажатие кнопки переименования счета")
 
-    def input_text_to_field(self):
+    def text_to_field(self):
         return self.d.find_element(*DepositPageLocators.INPUT_FIELD)
 
+    @allure.step("Изменение имени счета на {new_name}")
     def rename_account(self, new_name: str):
         self.rename_button()
-        self.input_text_to_field().clear()
-        self.input_text_to_field().send_keys(new_name)
+        self.text_to_field().clear()
+        self.text_to_field().send_keys(new_name)
         logger.info(f"Ввод текста '{new_name}' в поле ввода")
-        self.input_text_to_field().send_keys(Keys.ENTER)
+        self.text_to_field().send_keys(Keys.ENTER)
         logger.info("Нажатие кнопки 'ENTER'")
 
     def account_name(self, account_id):

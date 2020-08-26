@@ -8,8 +8,10 @@ from common.credit_page import (
     CREATE_STATEMENT_ALERT_SUCCESS,
     create_credit_success,
 )
+from utils.decorators import decorate_class_methods, start_finish_method_logger
 
 
+@decorate_class_methods(start_finish_method_logger)
 @allure.feature("Проверка блока: Кредиты")
 class TestCredits:
     @allure.tag("Кредиты")
@@ -35,7 +37,7 @@ class TestCredits:
         app.open_page(app.credit_url)
         app.credit_page.create_loan()
         app.credit_page.select_loan(loan_type)
-        assert app.credit_page.alert_info(alert_type) == alert_info, "Alert invalid"
+        assert app.alert_info(alert_type) == alert_info, "Alert invalid"
 
     @allure.tag("Кредиты")
     @allure.suite("Заявление на досрочное погашение")
@@ -56,7 +58,7 @@ class TestCredits:
         app.wait.until(app.ex.url_to_be(app.loan_full_repayment_url(doc_id)))
         app.credit_page.create_new_statement()
         assert (
-            app.credit_page.alert_info("success") == CREATE_STATEMENT_ALERT_SUCCESS
+            app.alert_info("success") == CREATE_STATEMENT_ALERT_SUCCESS
         ), "Ошибка при создании заявления"
 
     @allure.tag("Кредиты")
@@ -105,7 +107,7 @@ class TestSubmittedApplications:
         contract_number = app.credit_page.contract_num()
         app.credit_page.create_contract_set_all_checkboxes()
         app.credit_page.confirm_with_switch_frame()
-        assert app.credit_page.alert_info("success") == create_credit_success(
+        assert app.alert_info("success") == create_credit_success(
             contract_number
         )
 
@@ -133,5 +135,6 @@ class TestSubmittedApplications:
         app.credit_page.first_submitted_application_loan_claim_continue()
         try:
             app.credit_page.confirm_with_switch_frame()
+            assert False
         except ElementClickInterceptedException:
             assert app.credit_page.confirm_button_disabled()

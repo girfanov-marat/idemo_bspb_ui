@@ -36,5 +36,5 @@ class BasePage:
         self.wait.until(self.ex.visibility_of_element_located(alert_locator))
         alert = self.d.find_element(*alert_locator)
         message = alert.text
-        logger.info(f"Message: {message}")
+        logger.info(f"Сообщение: {message}")
         return message
