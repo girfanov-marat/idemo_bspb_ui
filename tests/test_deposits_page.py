@@ -9,9 +9,10 @@ from utils.decorators import start_finish_method_logger, decorate_class_methods
 @decorate_class_methods(start_finish_method_logger)
 @allure.feature("Проверка блока: Вклады")
 class TestCredits:
+
     @allure.tag("Вклады")
     @allure.description("Тест проверяет открытие вклада")
-    @allure.suite("Заявка на кредит или кредитную карту")
+    @allure.suite("Открытие вклада")
     @mark.parametrize(
         "currency, min_days, end_date, summ, prolongation, alert_type, alert_info",
         [("USD", "91", "21092021", "1000", True, "success", ALERT_INFO_SUCCESS)],
@@ -57,7 +58,7 @@ class TestCredits:
         "Тест проверяет открытие вклада без проставления чекбокса о "
         "согласии с правилами"
     )
-    @allure.suite("Заявка на кредит или кредитную карту")
+    @allure.suite("Открытие вклада")
     @mark.parametrize(
         "currency, min_days, end_date, summ, prolongation",
         [("USD", "91", "21092021", "1000", True)],
@@ -94,7 +95,7 @@ class TestCredits:
     @allure.description(
         "Тест проверяет открытие вклада c некорректной датой или суммой"
     )
-    @allure.suite("Заявка на кредит или кредитную карту")
+    @allure.suite("Открытие вклада")
     @mark.parametrize(
         "currency, min_days, end_date, summ, prolongation",
         [("RUB", "-1", "01011969", "1000", True), ("RUB", "-1", "21092021", "0", True)],
@@ -125,7 +126,7 @@ class TestCredits:
 
     @allure.tag("Вклады")
     @allure.description("Тест проверяет открытие вклада c отрицательного счета")
-    @allure.suite("Заявка на кредит или кредитную карту")
+    @allure.suite("Открытие вклада")
     @mark.parametrize(
         "currency, min_days, summ, prolongation", [("EUR", "91", "1500", True)]
     )
@@ -152,3 +153,20 @@ class TestCredits:
         assert app.deposit_page.error_message() == ERROR_MESSAGE, (
             "Сообщение 'Недостаточно средств на счёте' не отобразилось "
         )
+
+    @allure.tag("Вклады")
+    @allure.description("Тест проверяет переименование первого счета на странице "
+                        "вкладов")
+    @allure.suite("Переименование счета")
+    def test_rename_account(self, app, new_name="new_account_name"):
+        """
+        1. Перейти на вкладку "Кредиты"
+        2. Нажать кнопку переименование счета возле названия счета
+        3. Ввести текст
+        4. Нажать кнопку "ENTER"
+        """
+        app.open_page(app.deposit_url)
+        account_id = app.deposit_page.get_first_account_id()
+        app.deposit_page.rename_account(new_name)
+        assert app.deposit_page.account_name(account_id) == new_name
+

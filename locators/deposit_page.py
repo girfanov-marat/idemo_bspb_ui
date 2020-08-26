@@ -37,3 +37,7 @@ class DepositPageLocators:
         '//div[@class="tooltip fade right in"]',
     )
     ERROR_MESSAGE = (By.XPATH, '//span[@class="error-message"]')
+    RENAME_ACCOUNT_BUTTONS = (By.XPATH, '//i[@class="table-action-link icon-edit"]')
+    ACCOUNT_NAME = (By.XPATH, '//tbody/tr/td/a[@class="alias"]')
+    INPUT_FIELD = (By.XPATH, '//form[@class="account-alias-edit-form alias-edit-form internal form-inline"]//input[@type="text"]')
+    FIRST_ACCOUNT = (By.XPATH, '//table/tbody/tr[1]/td[1]')

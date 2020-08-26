@@ -11,7 +11,7 @@ def start_finish_method_logger(method):
     def message(*args, **kw):
         logger.info(f"Начало теста: {method.__name__}")
         result = method(*args, **kw)
-        logger.info(f"Конец теста: {method.__name__}")
+        logger.info(f"Конец теста: {method.__name__}\n")
         return result
     return message
 

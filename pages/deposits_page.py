@@ -2,6 +2,8 @@ import logging
 
 import allure
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 from locators.deposit_page import DepositPageLocators
 from pages.base_page import BasePage
@@ -45,11 +47,11 @@ class DepositPage(BasePage):
         self.d.find_element(*min_days_radio).click()
         logger.info(f"Установка фильтров: валюта - {currency}, срок - {min_days}")
 
-    @allure.step("Нажате кнопки 'открыть вклад' у первого вклада из списка")
+    @allure.step("Нажатие кнопки 'открыть вклад' у первого вклада из списка")
     def open_first_deposit(self) -> bool:
         try:
             self.d.find_elements(*DepositPageLocators.OPEN_DEPOSIT_BUTTONS)[0].click()
-            logger.info("Нажате кнопки 'открыть вклад' у первого вклада из списка")
+            logger.info("Нажатие кнопки 'открыть вклад' у первого вклада из списка")
             return True
         except NoSuchElementException:
             return False
@@ -114,3 +116,34 @@ class DepositPage(BasePage):
         elem = self.d.find_element(*DepositPageLocators.ERROR_MESSAGE)
         logger.info(f"Сообщение о недостатке средств: {elem.text}")
         return elem.text
+
+    def get_first_account_id(self):
+        attr_name = self.d.find_element(*DepositPageLocators.FIRST_ACCOUNT).get_attribute("id")
+        logger.info(f"Id первого счета: {attr_name}")
+        return attr_name
+
+    def rename_button(self):
+        actions = ActionChains(self.d)
+        elem = self.d.find_elements(*DepositPageLocators.RENAME_ACCOUNT_BUTTONS)[0]
+        actions.move_to_element(elem).perform()
+        elem.click()
+        logger.info("Нажатие кнопки переименования счета")
+
+    def input_text_to_field(self):
+        return self.d.find_element(*DepositPageLocators.INPUT_FIELD)
+
+    def rename_account(self, new_name: str):
+        self.rename_button()
+        self.input_text_to_field().clear()
+        self.input_text_to_field().send_keys(new_name)
+        logger.info(f"Ввод текста '{new_name}' в поле ввода")
+        self.input_text_to_field().send_keys(Keys.ENTER)
+        logger.info("Нажатие кнопки 'ENTER'")
+
+    def account_name(self, account_id):
+        element = DepositPageLocators.FIRST_ACCOUNT
+        self.wait.until(self.custom_ex.element_attr_name(element, "id", account_id))
+        text = self.d.find_element(*element).text
+        logger.info(f"Имя первого счета в таблице счетов: {text}")
+        return text
+
