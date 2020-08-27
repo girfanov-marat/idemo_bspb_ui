@@ -9,4 +9,4 @@ install:
 
 script:
   - LANGUAGE=ru_RU.UTF-8
-  - pytest
+  - pytest -o log_cli=true

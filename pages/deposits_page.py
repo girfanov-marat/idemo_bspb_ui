@@ -1,4 +1,5 @@
 import logging
+import time
 
 import allure
 from selenium.common.exceptions import NoSuchElementException
@@ -145,6 +146,7 @@ class DepositPage(BasePage):
     def account_name(self, account_id):
         element = DepositPageLocators.FIRST_ACCOUNT
         self.wait.until(self.custom_ex.element_attr_name(element, "id", account_id))
+        time.sleep(1)
         text = self.d.find_element(*element).text
         logger.info(f"Имя первого счета в таблице счетов: {text}")
         return text
