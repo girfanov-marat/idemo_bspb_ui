@@ -126,4 +126,6 @@ class AccountsPage(BasePage):
         self.d.find_element(*AccountsPageLocators.SEND_BUTTON).click()
 
     def email_success_message(self):
-        return self.d.find_element(*AccountsPageLocators.EMAIL_SUCCESS_MESSAGE).text
+        elem = AccountsPageLocators.EMAIL_SUCCESS_MESSAGE
+        self.wait.until(self.custom_ex.text_is_not_empty(elem))
+        return self.d.find_element(*elem).text

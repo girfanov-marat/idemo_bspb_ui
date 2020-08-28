@@ -64,3 +64,4 @@ class CreditPageLocators:
     )
     PERSONAL_TERMS = (By.XPATH, '//table[@class="table"]//tr')
     CONTRACT_NUM = (By.XPATH, '//span[@class="uneditable-input input-borderless "]')
+    CONFIRM_BUTTON = (By.XPATH, '//button[@id="confirm"]')
