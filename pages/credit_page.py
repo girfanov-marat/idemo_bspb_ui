@@ -2,6 +2,7 @@ import logging
 
 import allure
 
+from locators.base_page import BasePageLocators
 from locators.credit_page import CreditPageLocators
 from pages.base_page import BasePage
 
@@ -90,10 +91,16 @@ class CreditPage(BasePage):
         return self.d.find_element(*CreditPageLocators.SEND_BUTTON).click()
 
     def confirm_button_disabled(self):
+        logger.info("Переключение на фрейм")
+        self.wait.until(
+            self.ex.frame_to_be_available_and_switch_to_it(BasePageLocators.IFRAME)
+        )
         button_state = self.d.find_element(
             *CreditPageLocators.CONFIRM_BUTTON
         ).is_enabled()
         logger.info(f"Статус кнопки 'Подтвердить':{button_state}")
+        logger.info("Возврат в основное окно")
+        self.d.switch_to.default_content()
         return not button_state
 
     def contract_num(self):
