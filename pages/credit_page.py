@@ -1,7 +1,6 @@
 import logging
 
 import allure
-from selenium.common.exceptions import NoSuchWindowException
 
 from locators.credit_page import CreditPageLocators
 from pages.base_page import BasePage
@@ -69,8 +68,9 @@ class CreditPage(BasePage):
 
     def first_contract_id(self):
         """Вытаскивает id первого договора"""
-        first_doc_id = self.d.find_elements(*CreditPageLocators.CONTRACTS)[0].\
-            get_attribute("data-loan-id")
+        first_doc_id = self.d.find_elements(*CreditPageLocators.CONTRACTS)[
+            0
+        ].get_attribute("data-loan-id")
         logger.info(f"Id первого договора: {first_doc_id}")
         return first_doc_id
 
@@ -89,13 +89,10 @@ class CreditPage(BasePage):
         logger.info("Нажатие кнопки 'Отправить'")
         return self.d.find_element(*CreditPageLocators.SEND_BUTTON).click()
 
-    @allure.step("Нажатие кнопки 'Подтвердить'")
-    def confirm_button(self):
-        logger.info("Нажатие кнопки 'Подтвердить'")
-        return self.d.find_element(*CreditPageLocators.CONFIRM_BUTTON).click()
-
     def confirm_button_disabled(self):
-        button_state = self.d.find_element(*CreditPageLocators.CONFIRM_BUTTON).is_enabled()
+        button_state = self.d.find_element(
+            *CreditPageLocators.CONFIRM_BUTTON
+        ).is_enabled()
         logger.info(f"Статус кнопки 'Подтвердить':{button_state}")
         return not button_state
 
@@ -107,8 +104,9 @@ class CreditPage(BasePage):
         return doc_num
 
     def office_field_attribute_class(self):
-        attr_value = self.d.find_element(*CreditPageLocators.OFFICE_FIELD).\
-            get_attribute("class")
+        attr_value = self.d.find_element(
+            *CreditPageLocators.OFFICE_FIELD
+        ).get_attribute("class")
         logger.info(f"Значение аттрибута class у поля 'Офис': {attr_value}")
         return attr_value
 
@@ -128,23 +126,6 @@ class CreditPage(BasePage):
                 self.d.find_element(
                     *CreditPageLocators.PERSONAL_TERMS_AGREEMENT_BUTTON
                 ).click()
-
-    def confirm_with_switch_frame(self):
-        logger.info("Переключение на фрейм")
-        self.wait.until(
-            self.ex.frame_to_be_available_and_switch_to_it(CreditPageLocators.IFRAME)
-        )
-        try:
-            self.confirm_button()
-        except NoSuchWindowException:
-            self.wait.until(
-                self.ex.visibility_of(
-                    self.d.find_element(*CreditPageLocators.CONFIRM_BUTTON)
-                )
-            )
-            self.confirm_button()
-        logger.info("Возврат в основное окно")
-        self.d.switch_to.default_content()
 
     def create_new_statement(self):
         self.select_first_office()

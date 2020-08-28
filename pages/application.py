@@ -1,5 +1,7 @@
 import allure
 from selenium.webdriver.android.webdriver import WebDriver
+
+from pages.accounts_page import AccountsPage
 from pages.base_page import BasePage
 import logging
 from common.logging import setup
@@ -17,6 +19,7 @@ class Application(BasePage):
         self.login = LoginPage(self.d)
         self.credit_page = CreditPage(self.d)
         self.deposit_page = DepositPage(self.d)
+        self.account_page = AccountsPage(self.d)
         setup("INFO")
         logger.setLevel("INFO")
 
@@ -40,6 +43,10 @@ class Application(BasePage):
     @property
     def accounts_url(self):
         return self.base_url + "accounts"
+
+    @property
+    def statement_url(self):
+        return self.base_url + "statement"
 
     def loan_full_repayment_url(self, doc_id):
         return (

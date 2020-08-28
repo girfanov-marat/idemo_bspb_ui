@@ -1,9 +1,12 @@
 import logging
 
+import allure
+from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
+from locators.base_page import BasePageLocators
 from locators.main_page import MainPageLocators
 from utils import custom_expected_conditions
 
@@ -38,3 +41,25 @@ class BasePage:
         message = alert.text
         logger.info(f"Сообщение: {message}")
         return message
+
+    @allure.step("Нажатие кнопки 'Подтвердить'")
+    def confirm_button(self):
+        logger.info("Нажатие кнопки 'Подтвердить'")
+        return self.d.find_element(*BasePageLocators.CONFIRM_BUTTON).click()
+
+    def confirm_with_switch_frame(self):
+        logger.info("Переключение на фрейм")
+        self.wait.until(
+            self.ex.frame_to_be_available_and_switch_to_it(BasePageLocators.IFRAME)
+        )
+        try:
+            self.confirm_button()
+        except NoSuchWindowException:
+            self.wait.until(
+                self.ex.visibility_of(
+                    self.d.find_element(*BasePageLocators.CONFIRM_BUTTON)
+                )
+            )
+            self.confirm_button()
+        logger.info("Возврат в основное окно")
+        self.d.switch_to.default_content()

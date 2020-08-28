@@ -9,7 +9,6 @@ from utils.decorators import start_finish_method_logger, decorate_class_methods
 @decorate_class_methods(start_finish_method_logger)
 @allure.feature("Проверка блока: Вклады")
 class TestDeposits:
-
     @allure.tag("Вклады")
     @allure.description("Тест проверяет открытие вклада")
     @allure.suite("Открытие вклада")
@@ -33,7 +32,8 @@ class TestDeposits:
         2. Нажать кнопку "Открыть вклад"
         3. Установить фильтры
         4. Выбрать первый доступный вклад и нажать кнопку "Открыть вклад"
-        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически продлевать на новый срок"
+        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически
+        продлевать на новый срок"
         6. Нажать кнопку "Дальше"
         7. Проставить чекбокс согласия с правилами
         8. Нажать кнопку "Подтвердить"
@@ -49,9 +49,9 @@ class TestDeposits:
         app.deposit_page.submit()
         app.deposit_page.agree_with_terms()
         app.deposit_page.confirm()
-        assert app.alert_info(alert_type) == alert_info, (
-            "Некорректное оповещение об успешном создании вклада "
-        )
+        assert (
+            app.alert_info(alert_type) == alert_info
+        ), "Некорректное оповещение об успешном создании вклада "
 
     @allure.tag("Вклады")
     @allure.description(
@@ -71,7 +71,8 @@ class TestDeposits:
         2. Нажать кнопку "Открыть вклад"
         3. Установить фильтры
         4. Выбрать первый доступный вклад и нажать кнопку "Открыть вклад"
-        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически продлевать на новый срок"
+        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически
+        продлевать на новый срок"
         6. Нажать кнопку "Дальше"
         7. Проставить чекбокс согласия с правилами
         8. Нажать кнопку "Подтвердить"
@@ -108,7 +109,8 @@ class TestDeposits:
         2. Нажать кнопку "Открыть вклад"
         3. Установить фильтры
         4. Выбрать первый доступный вклад и нажать кнопку "Открыть вклад"
-        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически продлевать на новый срок"
+        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически
+        продлевать на новый срок"
         6. Нажать кнопку "Дальше"
         """
         deposit = DepositData(end_date, summ, prolongation)
@@ -120,9 +122,9 @@ class TestDeposits:
         ), "Нет доступных депозитов по выбранным фильтрам"
         app.deposit_page.add_data(deposit.end_date, deposit.summ, deposit.prolongation)
         app.deposit_page.simple_submit()
-        assert app.deposit_page.alert_info(), (
-            "Сообщение о некорректной дате или сумме не отобразилось "
-        )
+        assert (
+            app.deposit_page.alert_info()
+        ), "Сообщение о некорректной дате или сумме не отобразилось "
 
     @allure.tag("Вклады")
     @allure.description("Тест проверяет открытие вклада c отрицательного счета")
@@ -138,7 +140,8 @@ class TestDeposits:
         2. Нажать кнопку "Открыть вклад"
         3. Установить фильтры
         4. Выбрать первый доступный вклад и нажать кнопку "Открыть вклад"
-        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически продлевать на новый срок"
+        5. Ввести дату окончачния, сумму, выбрать/убрать галочку "автоматически
+        продлевать на новый срок"
         6. Нажать кнопку "Дальше"
         """
         deposit = DepositData(summ=summ, prolongation=prolongation)
@@ -150,13 +153,14 @@ class TestDeposits:
         ), "Нет доступных депозитов по выбранным фильтрам"
         app.deposit_page.add_data_without_end_date(deposit.summ, deposit.prolongation)
         app.deposit_page.submit()
-        assert app.deposit_page.error_message() == ERROR_MESSAGE, (
-            "Сообщение 'Недостаточно средств на счёте' не отобразилось "
-        )
+        assert (
+            app.deposit_page.error_message() == ERROR_MESSAGE
+        ), "Сообщение 'Недостаточно средств на счёте' не отобразилось "
 
     @allure.tag("Вклады")
-    @allure.description("Тест проверяет переименование первого счета на странице "
-                        "вкладов")
+    @allure.description(
+        "Тест проверяет переименование первого счета на странице " "вкладов"
+    )
     @allure.suite("Переименование счета")
     @mark.xfail
     def test_rename_account(self, app, new_name="new_account_name"):
@@ -167,7 +171,5 @@ class TestDeposits:
         4. Нажать кнопку "ENTER"
         """
         app.open_page(app.deposit_url)
-        account_id = app.deposit_page.get_first_account_id()
         app.deposit_page.rename_account(new_name)
-        assert app.deposit_page.account_name(account_id) == new_name
-
+        assert app.deposit_page.account_name(new_name)

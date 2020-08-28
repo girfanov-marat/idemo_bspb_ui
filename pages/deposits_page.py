@@ -1,5 +1,4 @@
 import logging
-import time
 
 import allure
 from selenium.common.exceptions import NoSuchElementException
@@ -70,7 +69,10 @@ class DepositPage(BasePage):
             self.d.find_element(*DepositPageLocators.PROLONGATION_CHECKBOX).click()
 
     def add_data_without_end_date(self, summ, prolongation):
-        logger.info(f"Проставление данных: сумма - {summ}, автоматическое продление - {prolongation}")
+        logger.info(
+            f"Проставление данных: сумма - {summ}, автоматическое продление "
+            f"- {prolongation}"
+        )
         self.d.find_element(*DepositPageLocators.SUMM_FIELD).send_keys(summ)
         if not prolongation:
             self.d.find_element(*DepositPageLocators.PROLONGATION_CHECKBOX).click()
@@ -78,7 +80,9 @@ class DepositPage(BasePage):
     @allure.step("Нажатие кнопки 'Дальше' на странице открытия вклада")
     def submit(self):
         elem = self.d.find_element(*DepositPageLocators.INTEREST_RATE_VALUE)
-        self.wait.until(self.custom_ex.text_is_not_empty(DepositPageLocators.INTEREST_RATE_VALUE))
+        self.wait.until(
+            self.custom_ex.text_is_not_empty(DepositPageLocators.INTEREST_RATE_VALUE)
+        )
         element_text = elem.text
         logger.info(f"Оценочный доход = {element_text}")
         self.d.find_element(*DepositPageLocators.SUBMIT_BUTTON).click()
@@ -119,7 +123,9 @@ class DepositPage(BasePage):
         return elem.text
 
     def get_first_account_id(self):
-        attr_name = self.d.find_element(*DepositPageLocators.FIRST_ACCOUNT).get_attribute("id")
+        attr_name = self.d.find_element(
+            *DepositPageLocators.FIRST_ACCOUNT
+        ).get_attribute("id")
         logger.info(f"Id первого счета: {attr_name}")
         return attr_name
 
@@ -143,11 +149,9 @@ class DepositPage(BasePage):
         self.text_to_field().send_keys(Keys.ENTER)
         logger.info("Нажатие кнопки 'ENTER'")
 
-    def account_name(self, account_id):
+    def account_name(self, text):
         element = DepositPageLocators.FIRST_ACCOUNT
-        self.wait.until(self.custom_ex.element_attr_name(element, "id", account_id))
-        time.sleep(1)
+        self.wait.until(self.ex.text_to_be_present_in_element(element, text))
         text = self.d.find_element(*element).text
         logger.info(f"Имя первого счета в таблице счетов: {text}")
         return text
-

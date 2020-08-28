@@ -23,13 +23,16 @@ class text_is_not_empty(object):
 
 
 class element_attr_name(object):
-    def __init__(self, locator, attr, name):
+    def __init__(self, locator, attr, value):
         self.locator = locator
         self.attr = attr
-        self.name = name
+        self.value = value
 
     def __call__(self, driver):
         try:
-            return _find_element(driver, self.locator).get_attribute(self.attr) == self.name
+            return (
+                _find_element(driver, self.locator).get_attribute(self.attr)
+                == self.value
+            )
         except StaleElementReferenceException:
             return False

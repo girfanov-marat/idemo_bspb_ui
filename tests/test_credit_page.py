@@ -1,6 +1,5 @@
 import allure
 from pytest import mark
-from selenium.common.exceptions import ElementClickInterceptedException
 
 from common.credit_page import (
     ALERT_INFO_TEXT,
@@ -107,9 +106,7 @@ class TestSubmittedApplications:
         contract_number = app.credit_page.contract_num()
         app.credit_page.create_contract_set_all_checkboxes()
         app.credit_page.confirm_with_switch_frame()
-        assert app.alert_info("success") == create_credit_success(
-            contract_number
-        )
+        assert app.alert_info("success") == create_credit_success(contract_number)
 
     @allure.tag("Кредиты")
     @allure.suite("Создание договора на получение кредита")
@@ -124,7 +121,6 @@ class TestSubmittedApplications:
         2. Нажать кнопку 'Получить' у первой заявки в списке 'Поданные заявки'
         3. Нажать кнопку 'Продолжить' на странице Параметры договора
         4. Нажать кнопку 'Продолжить' на странице Уточнение параметров договора
-        5. Нажать кнопку 'Подтвердить'
         """
         app.open_page(app.credit_url)
         assert (
@@ -133,8 +129,4 @@ class TestSubmittedApplications:
         app.credit_page.first_submitted_application_receive()
         app.credit_page.first_submitted_application_continue()
         app.credit_page.first_submitted_application_loan_claim_continue()
-        try:
-            app.credit_page.confirm_with_switch_frame()
-            assert False
-        except ElementClickInterceptedException:
-            assert app.credit_page.confirm_button_disabled()
+        assert app.credit_page.confirm_button_disabled()

@@ -33,7 +33,6 @@ class CreditPageLocators:
 
     OFFICE_LIST = (By.XPATH, '//select[@name="message.branch"]//option')
     SEND_BUTTON = (By.XPATH, '//button[@id="send-button"]')
-    CONFIRM_BUTTON = (By.XPATH, '//button[@id="confirm"]')
     CONTINIUE_BUTTON = (
         By.XPATH,
         '//div[@class="form-actions"]//a[@class="btn btn-primary"]',
@@ -53,7 +52,6 @@ class CreditPageLocators:
     )
     ACCOUNTS = (By.XPATH, '//div[@class="controls"]//select[@name="serviceAccountId"]')
     REPAYMENT_DAY = (By.XPATH, '//div[@class="controls"]//select[@name="repaymentDay"]')
-    IFRAME = (By.XPATH, '//iframe[@id="confirmation-frame"]')
     OFFICE_FIELD = (
         By.XPATH,
         '//div[@class="controls"]//select[@name="message.branch"]',
