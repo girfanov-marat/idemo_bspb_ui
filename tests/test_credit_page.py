@@ -81,9 +81,6 @@ class TestCredits:
         app.credit_page.send_button()
         assert app.credit_page.office_field_attribute_class() == "span5 required error"
 
-
-@allure.feature("Проверка блока: Поданные заявки")
-class TestSubmittedApplications:
     @allure.tag("Кредиты")
     @allure.suite("Создание договора на получение кредита")
     @allure.description("Тест проверяет создание договора на получение кредита")
@@ -108,6 +105,7 @@ class TestSubmittedApplications:
         app.credit_page.confirm_with_switch_frame()
         assert app.alert_info("success") == create_credit_success(contract_number)
 
+    @mark.xfail
     @allure.tag("Кредиты")
     @allure.suite("Создание договора на получение кредита")
     @allure.description(

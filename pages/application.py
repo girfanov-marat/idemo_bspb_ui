@@ -4,7 +4,7 @@ from selenium.webdriver.android.webdriver import WebDriver
 from pages.accounts_page import AccountsPage
 from pages.base_page import BasePage
 import logging
-from common.logging import setup
+from utils.logging import setup
 from pages.credit_page import CreditPage
 from pages.deposits_page import DepositPage
 from pages.login_page import LoginPage

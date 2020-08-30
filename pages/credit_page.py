@@ -119,7 +119,6 @@ class CreditPage(BasePage):
 
     @allure.step("Проставление всех чекбоксов на странице")
     def create_contract_set_all_checkboxes(self):
-        """Проставляет все чек боксы на странице 'Подписание договора'."""
         logger.info("Проставление всех чекбоксов на странице")
         checkboxes = self.d.find_elements(
             *CreditPageLocators.CONTRACT_SIGNING_CHECKBOXES

@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 import allure
 import pytest
@@ -46,8 +45,8 @@ def pytest_addoption(parser):
     ),
     parser.addoption(
         "--headless",
-        action="store",
-        default=True,
+        action="store_true",
+        default=False,
         help="launching browser without gui",
     ),
 

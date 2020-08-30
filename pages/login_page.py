@@ -14,5 +14,6 @@ class LoginPage(BasePage):
         return self.d.find_element(*LoginLocators.LOGIN_OTP_CODE_BUTTON)
 
     def auth(self):
+        logger.info("Авторизация")
         self.login_button().click()
         self.login_otp_code_button().click()

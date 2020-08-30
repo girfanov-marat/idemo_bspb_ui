@@ -13,6 +13,7 @@ from utils.decorators import decorate_class_methods, start_finish_method_logger
 @decorate_class_methods(start_finish_method_logger)
 @allure.feature("Проверка блока: Счета")
 class TestAccounts:
+
     @allure.tag("Счета")
     @allure.description("Тест проверяет открытие счета")
     @allure.suite("Открытие счета")
@@ -23,8 +24,6 @@ class TestAccounts:
         3. Проставить чекбокс согласия с правилами
         4. Нажать кнопку "Открыть счет"
         5. Нажать кнопку "Подтвердить"
-        :param app:
-        :return:
         """
         app.open_page(app.accounts_url)
         app.account_page.open_account_button_ckick()

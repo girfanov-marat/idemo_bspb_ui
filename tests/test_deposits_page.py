@@ -86,11 +86,7 @@ class TestDeposits:
         ), "Нет доступных депозитов по выбранным фильтрам"
         app.deposit_page.add_data(deposit.end_date, deposit.summ, deposit.prolongation)
         app.deposit_page.submit()
-        try:
-            app.deposit_page.confirm()
-            assert False
-        except ElementClickInterceptedException:
-            assert app.deposit_page.confirm_is_enabled(), "Кнопка 'Подтвердить' активна"
+        assert app.deposit_page.confirm_is_enabled(), "Кнопка 'Подтвердить' активна"
 
     @allure.tag("Вклады")
     @allure.description(
